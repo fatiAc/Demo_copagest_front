@@ -1,0 +1,14 @@
+// If you want to override variables do it here
+@import "variables";
+
+// Import styles
+@import "~@coreui/coreui/scss/coreui";
+
+// sweet alert theme
+@import '~@sweetalert2/theme-bootstrap-4/bootstrap-4';
+
+// If you want to add something do it here
+@import "custom";
+
+//ng-pick-datetime
+@import "~ng-pick-datetime/assets/style/picker.min.css";

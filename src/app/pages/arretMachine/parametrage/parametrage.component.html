@@ -1,0 +1,337 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "large" color = "#fff" type = "timer"
+             [fullScreen] = "true"><p style="color: white" >
+  </p>
+</ngx-spinner>
+<div class="card" *ngIf="this.authService.hasAccess(2009, 2110, 'TPAMGEST' )">
+  <div class="card-header">Type d'arrêt</div>
+  <div class="card-body row">
+    <div class="col-sm-6">
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label" for="Nom">Nom : </label>
+        <div class="col-sm-8">
+          <input [(ngModel)]="typeArret.LIBELLE" type="text" id="Nom" name="Nom"
+                 class="form-control"
+                 placeholder="Description .." [required]="true">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Couleur : </label>
+        <div class="col-sm-8">
+          <jqxColorPicker #typeArretColorPicker (onColorchange)="colorChanged($event,1)"
+                          [width]="configJqxColorPickerDimension().width"
+                          [height]="configJqxColorPickerDimension().height">
+          </jqxColorPicker>
+          <div style="font-size: 13px; font-family: Verdana; margin-top: 10px">
+            <div style="margin-bottom: 5px">Mode de coloration</div>
+            <jqxRadioButton
+              [width]="180" [height]="25" checked="true">
+              Saturation
+            </jqxRadioButton>
+            <jqxRadioButton (onChange)="hueModeChanged($event, typeArretColorPicker)"
+                            [width]="180" [height]="25">
+              Teinte
+            </jqxRadioButton>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <jqxGrid
+        [theme]="'bootstrap'" [width]="'100%'" [source]="typeArretTable.dataAdapter"
+        [columns]="typeArretTable.columns" [localization]="localization"
+        [selectionmode]="'single'"
+        [pageable]="true" [autoheight]="true" [autorowheight]="true"
+        [sortable]="true" [altrows]="true" [columnsresize]="true" [enabletooltips]="true"
+        [filterable]="true" [showfilterrow]="true" (onRowclick)="importSelectedTypeArret($event)" #typeArretGrid>
+      </jqxGrid>
+    </div>
+
+  </div>
+  <div class="card-footer" >
+    <button (click)="createTypeArret()" [disabled]="disableCreateTypeArrtBtn()" class="btn btn-sm btn-primary"
+            #createTypeArretBtn><i
+      class="fa fa-plus"></i> Ajouter
+    </button>
+    <button (click)="updateTypeArret()" [disabled]="disableEditTypeArrtBtn()" class="btn btn-sm btn-success"
+            #editTypeArretBtn><i
+      class="fa fa-edit"></i>Editer
+    </button>
+    <button (click)="refreshTypeArretForm()" class="btn btn-sm btn-danger"><i class="fa fa-refresh"></i>
+      Refraichir
+    </button>
+  </div>
+</div>
+
+<div class="card" *ngIf="this.authService.hasAccess(2009, 2110, 'EVFABGEST' )">
+  <div class="card-header">Evenement de fabrication</div>
+  <div class="card-body row">
+    <div class="col-sm-6">
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label" for="name">Nom : </label>
+        <div class="col-sm-8">
+          <input [(ngModel)]="eventFabrication.LIBELLE" type="text" id="name" name="name"
+                 class="form-control"
+                 placeholder="Description .." [required]="true">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Couleur : </label>
+        <div class="col-sm-8">
+          <jqxColorPicker #eventFabricationColorPicker
+                          (onColorchange)="colorChanged($event,2)"  [width]="configJqxColorPickerDimension().width"
+                          [height]="configJqxColorPickerDimension().height">
+          </jqxColorPicker>
+          <div style="font-size: 13px; font-family: Verdana; margin-top: 10px">
+            <div style="margin-bottom: 5px">Mode de coloration :</div>
+            <jqxRadioButton
+              [width]="180" [height]="25" checked="true">
+              Saturation
+            </jqxRadioButton>
+            <jqxRadioButton (onChange)="hueModeChanged($event, eventFabricationColorPicker)"
+                            [width]="180" [height]="25">
+              Teinte
+            </jqxRadioButton>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-sm-6">
+      <jqxGrid
+        [theme]="'bootstrap'" [width]="'100%'" [source]="eventFabricTable.dataAdapter"
+        [columns]="eventFabricTable.columns" [localization]="localization"
+        [selectionmode]="'single'"
+        [pageable]="true" [autoheight]="true" [autorowheight]="true"
+        [sortable]="true" [altrows]="true" [columnsresize]="true" [enabletooltips]="true"
+        [filterable]="true" [showfilterrow]="true" (onRowclick)="importSelectedEventFabric($event)" #eventFabricGrid>
+      </jqxGrid>
+    </div>
+
+  </div>
+  <div class="card-footer" >
+    <button (click)="createEventFabric()" [disabled]="disableCreateEventFabricBtn()" class="btn btn-sm btn-primary"
+            #createEventFabricBtn><i
+      class="fa fa-plus"></i> Ajouter
+    </button>
+    <button (click)="updateEventFabric()" [disabled]="disableEditEventFabricBtn()" class="btn btn-sm btn-success"
+            #editEventFabricBtn><i
+      class="fa fa-edit"></i>Editer
+    </button>
+    <button (click)="refreshEventFabricForm()" class="btn btn-sm btn-danger"><i class="fa fa-refresh"></i>
+      Refraichir
+    </button>
+  </div>
+</div>
+
+<div class="card" *ngIf="this.authService.hasAccess(2009, 2110, 'SHIFTGEST' )">
+  <div class="card-header">Les shifts</div>
+  <div class="card-body row">
+    <div class="col-sm-6">
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="name">Libelle : </label>
+        <div class="col-sm-9">
+          <input [(ngModel)]="shift.LIBELLE" type="text" id="shiftName" name="shiftName"
+                 class="form-control"
+                 placeholder="Description .." [required]="true">
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-4">
+          <label class="col-form-label">Heure début : </label>
+          <div>
+            <input [(ngModel)]="shift.HEURE_DEBUT" [min]="0" [max]="23" type="number" id="HEURE_DEBUT"
+                   name="HEURE_DEBUT"
+                   (ngModelChange)="calculNbrHeur()"
+                   class="form-control"
+                   placeholder="début .." [required]="true">
+          </div>
+        </div>
+        <div class="form-group col-sm-4">
+          <label class="col-form-label">Heure fin : </label>
+          <div>
+            <input [(ngModel)]="shift.HEURE_FIN" [min]="0" [max]="23" type="number" id="HEURE_FIN" name="HEURE_FIN"
+                   (ngModelChange)="calculNbrHeur()"
+                   class="form-control"
+                   placeholder="Fin .." [required]="true">
+          </div>
+        </div>
+        <div class="form-group col-sm-4">
+          <label class="col-form-label">Nbr. heure : </label>
+          <div>
+            <input [disabled]="true" [(ngModel)]="shift.NBR_HEURE" type="number" id="NBR_HEURE" name="NBR_HEURE"
+                   class="form-control"
+                   placeholder="Fin .." [required]="true">
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-sm-6">
+      <jqxGrid
+        [theme]="'bootstrap'" [width]="'100%'" [source]="shiftTable.dataAdapter"
+        [columns]="shiftTable.columns" [localization]="localization"
+        [selectionmode]="'single'"
+        [pageable]="true" [autoheight]="true" [autorowheight]="true"
+        [sortable]="true" [altrows]="true" [columnsresize]="true" [enabletooltips]="true"
+        [filterable]="true" [showfilterrow]="true" (onRowclick)="importSelectedShift($event)" #shiftGrid>
+      </jqxGrid>
+    </div>
+
+  </div>
+  <div class="card-footer">
+       <!--*ngIf="authService.hasAccess(2009,2110,'AJT') && authService.hasAccess(2009,2110,'MDF')"-->
+    <button (click)="createShift()" [disabled]="disableCreateShiftBtn()" class="btn btn-sm btn-primary"><i
+      class="fa fa-plus" #createShiftBtn></i> Ajouter
+    </button>
+    <button (click)="updateShift()" [disabled]="disableEditShifBtn()" class="btn btn-sm btn-success"><i
+      class="fa fa-edit" #editShiftBtn></i>Editer
+    </button>
+    <button (click)="refreshShiftForm()" class="btn btn-sm btn-danger"><i class="fa fa-refresh"></i>
+      Refraichir
+    </button>
+  </div>
+</div>
+
+<div class="card" *ngIf="this.authService.hasAccess(2009, 2110, 'SHIFTPARAM' )">
+  <div class="card-header">Pilote-Shift-Machine</div>
+  <div class="card-body row">
+    <div class="col-sm-6">
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="name">Pilote : </label>
+        <div class="col-sm-9">
+          <ng-multiselect-dropdown
+            [placeholder]="'Pilote'"
+            [data]="pilotesDropDown.data"
+            [(ngModel)]="pilotesDropDown.selected"
+            [settings]="pilotesDropDown.settings"
+            (onSelect)="getSelectedData(1)"
+            (onDeSelect)="onDeselectData(1)"
+          >
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="name">Machine : </label>
+        <div class="col-sm-9">
+          <ng-multiselect-dropdown
+            [placeholder]="'Machine'"
+            [data]="machinesDropDown.data"
+            [(ngModel)]="machinesDropDown.selected"
+            [settings]="machinesDropDown.settings"
+            (onSelect)="getSelectedData(2)"
+            (onDeSelect)="onDeselectData(2)"
+          >
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="name">Shift : </label>
+        <div class="col-sm-9">
+          <ng-multiselect-dropdown
+            [placeholder]="'Shift'"
+            [data]="shiftDropDown.data"
+            [(ngModel)]="shiftDropDown.selected"
+            [settings]="shiftDropDown.settings"
+            (onSelect)="getSelectedData(3)"
+            (onDeSelect)="onDeselectData(3)"
+          >
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+      <span class="m-form__help text-danger"
+            *ngIf="isExistMachinPilotShift()">
+                                  Cette affectation existe deja, veuillez saisir une autre.
+                                </span>
+    </div>
+    <div class="col-sm-6">
+      <jqxGrid
+        [theme]="'bootstrap'" [width]="'100%'" [source]="shiftMachinePiloteTable.dataAdapter"
+        [columns]="shiftMachinePiloteTable.columns" [localization]="localization"
+        [selectionmode]="'single'"
+        [pageable]="true" [autoheight]="true" [autorowheight]="true"
+        [sortable]="true" [altrows]="true" [columnsresize]="true" [enabletooltips]="true"
+        [filterable]="true" [showfilterrow]="true" (onRowclick)="importSelectedShiftMachinPilot($event)"
+        #shiftMachinePilotGrid>
+      </jqxGrid>
+    </div>
+
+
+  </div>
+  <div class="card-footer">
+    <button (click)="createShiftMachinePilot()" [disabled]="disableCreateShiftMachinPilotBtn()"
+            class="btn btn-sm btn-primary" #createShiftMachinePiloteBtn><i
+      class="fa fa-plus"></i> Ajouter
+    </button>
+    <button (click)="updateShiftMachinPilot()" [disabled]="disableEditShifMachinPilotBtn()"
+            class="btn btn-sm btn-success" #editShiftMachinePiloteBtn><i
+      class="fa fa-edit"></i>Editer
+    </button>
+    <button (click)="refreshShiftMachinPilotForm()" class="btn btn-sm btn-danger"><i class="fa fa-refresh"></i>
+      Refraichir
+    </button>
+  </div>
+</div>
+
+<div class="card" *ngIf="this.authService.hasAccess(2009, 2110, 'EVFABMAC' )">
+  <div class="card-header">Machine - Evenements de fabrication</div>
+  <div class="card-body row">
+    <div class="col-sm-6">
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="name">Machine : </label>
+        <div class="col-sm-9">
+          <ng-multiselect-dropdown [disabled]="toEditMachineSteps"
+                                   [placeholder]="'Machine'"
+                                   [data]="machinesCombDropDown.data"
+                                   [(ngModel)]="machinesCombDropDown.selected"
+                                   [settings]="machinesCombDropDown.settings"
+                                   (onSelect)="onSelectMachineToConfigure()"
+          >
+          </ng-multiselect-dropdown>
+          <span class="m-form__help text-danger"
+                *ngIf="isMachineConfigured">
+                                  Cette machine est deja configurée, veuillez choisir une autre machine.
+                                </span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="name">Evenements de fabrication : </label>
+        <div class="col-sm-9">
+          <ng-multiselect-dropdown
+            [placeholder]="'Evenement de la fabrication '"
+            [data]="stepFabricDropDown.data"
+            [(ngModel)]="stepFabricDropDown.selected"
+            [settings]="stepFabricDropDown.settings"
+          >
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <jqxGrid
+        [theme]="'bootstrap'" [width]="'100%'" [source]="machineFabricationTable.dataAdapter"
+        [columns]="machineFabricationTable.columns" [localization]="localization"
+        [selectionmode]="'single'"
+        [pageable]="true" [autoheight]="true" [autorowheight]="true"
+        [sortable]="true" [altrows]="true" [columnsresize]="true" [enabletooltips]="true"
+        [filterable]="true" [showfilterrow]="true" (onRowclick)="importSelectedMachineSteps($event)"
+        #machineFabricationGrid>
+      </jqxGrid>
+    </div>
+
+  </div>
+  <div class="card-footer" >
+    <button (click)="createMachineSteps()" [disabled]="disableCreateMachineStepsBtn()" class="btn btn-sm btn-primary"
+            #createMachnineStepFabricBtn><i
+      class="fa fa-plus"></i> Ajouter
+    </button>
+    <button (click)="updateMachineSteps()" [disabled]="disableEditMachineStepsBtn()" class="btn btn-sm btn-success"
+            #editMachnineStepFabricBtn><i
+      class="fa fa-edit"></i>Editer
+    </button>
+    <button (click)="refreshMachineStepsForm()" class="btn btn-sm btn-danger"><i class="fa fa-refresh"></i>
+      Refraichir
+    </button>
+  </div>
+</div>
+
+

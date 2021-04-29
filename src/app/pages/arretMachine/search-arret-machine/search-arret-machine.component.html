@@ -1,0 +1,59 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "large" color = "#fff" type = "timer"
+             [fullScreen] = "true"><p style="color: white" >
+  Traitement de la requete en cours ... Si vous actualiser la fenetre verifier
+  s'il vous plait la validité des données, car il se peut que votre opération
+  est deja traiter par le serveur. </p>
+</ngx-spinner>
+<div class="card">
+  <div class="card-header">Trouver un arrêt machine</div>
+  <div class="card-body row">
+    <div class="form-group col-sm-6 col-md-4">
+      <label class="col-form-label">Machine : </label>
+      <ng-multiselect-dropdown [placeholder]="'Machine'"
+                               [data]="machinesDropDown.data"
+                               [(ngModel)]="machinesDropDown.selected"
+                               [settings]="machinesDropDown.settings"
+                               (onSelect)="arretMachineObj.machineID = machinesDropDown.selected[0].ID_MACHINE"
+                               (onDeSelect)="arretMachineObj.machineID = null"
+      >
+      </ng-multiselect-dropdown>
+    </div>
+    <div class="form-group col-sm-6 col-md-4">
+      <label class="col-form-label">Pilote : </label>
+      <ng-multiselect-dropdown
+        [placeholder]="'Pilote'"
+        [data]="pilotesDropDown.data"
+        [(ngModel)]="pilotesDropDown.selected"
+        [settings]="pilotesDropDown.settings"
+        (onSelect)="arretMachineObj.piloteID = pilotesDropDown.selected[0].ID_PILOTE"
+        (onDeSelect)="arretMachineObj.piloteID = null"
+      >
+      </ng-multiselect-dropdown>
+    </div>
+    <div class="form-group col-sm-6 col-md-4">
+      <label class="col-form-label">Type d'arrêt : </label>
+      <jqxDropDownList [width]="'100%'" [height]="35" [filterable]="true" [filterPlaceHolder]="'Filtrer'"
+                       style="background-color: white" [source]="typesArret"
+                       (onChange)="arretMachineObj.typeArretID = typesArret[$event.args.index].title" [selectedIndex]="0">
+      </jqxDropDownList>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button (click)="search()" class="btn btn-sm btn-primary"><i
+      class="fa fa-search"></i> Chercher
+    </button>
+    <button (click)="refresh()" class="btn btn-sm btn-danger"><i
+      class="fa fa-refresh"></i> Refraichie
+    </button>
+  </div>
+  <div class="card-body">
+    <jqxGrid
+      [theme]="'bootstrap'" [width]="'100%'" [source]="arretMachineTable.dataAdapter"
+      [columns]="arretMachineTable.columns" [localization]="localization"
+      [selectionmode]="'single'"
+      [pageable]="true" [autoheight]="true" [autorowheight]="true"
+      [sortable]="true" [altrows]="true" [columnsresize]="true" [enabletooltips]="true"
+      [filterable]="true" [showfilterrow]="true" #arretMachineGrid>
+    </jqxGrid>
+  </div>
+</div>

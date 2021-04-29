@@ -1,0 +1,80 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "large" color = "#fff" type = "timer"
+             [fullScreen] = "true"><p style="color: white" >
+  Traitement de la requete en cours ... Si vous actualiser la fenetre verifier
+  s'il vous plait la validité des données, car il se peut que votre opération
+  est deja traiter par le serveur. </p>
+</ngx-spinner>
+<div class="card">
+  <div class="card-header">Tableau de bord</div>
+  <div class="card-body row">
+    <div class="form-group col-sm-6 col-md-4">
+      <label class="col-form-label">Machine : </label>
+      <ng-multiselect-dropdown [placeholder]="'Machine'"
+                               [data]="machinesDropDown.data"
+                               [(ngModel)]="machinesDropDown.selected"
+                               [settings]="machinesDropDown.settings"
+                               (onSelect)="arretMachine.ID_MACHINE = machinesDropDown.selected[0].ID_MACHINE"
+                               (onDeSelect)="arretMachine.ID_MACHINE = null">
+      </ng-multiselect-dropdown>
+    </div>
+    <div class="form-group col-sm-6 col-md-4">
+      <label class="col-form-label">Shift : </label>
+      <ng-multiselect-dropdown [placeholder]="'Shift'"
+                               [data]="shiftsDropDown.data"
+                               [(ngModel)]="shiftsDropDown.selected"
+                               [settings]="shiftsDropDown.settings"
+                               (onSelect)="arretMachine.ID_SHIFT = shiftsDropDown.selected[0].ID_SHIFT"
+                               (onDeSelect)="arretMachine.ID_SHIFT = null">
+      </ng-multiselect-dropdown>
+    </div>
+    <div class="form-group col-sm-6 col-md-4">
+      <label class="col-form-label">Pilote : </label>
+      <ng-multiselect-dropdown [placeholder]="'Pilote'"
+                               [data]="pilotesDropDown.data"
+                               [(ngModel)]="pilotesDropDown.selected"
+                               [settings]="pilotesDropDown.settings"
+                               (onSelect)="arretMachine.ID_PILOTE = pilotesDropDown.selected[0].ID_PILOTE"
+                               (onDeSelect)="arretMachine.ID_PILOTE = null">
+      </ng-multiselect-dropdown>
+    </div>
+    <div class="form-group col-sm-6 col-md-4">
+      <label class="col-form-label">Mois : </label>
+      <select [(ngModel)]="month" class="form-control select2"
+              style="width: 100%;">
+        <option [ngValue]="0">Actuel</option>
+        <option [ngValue]="1">précédent</option>
+      </select>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button (click)="search()"
+            [disabled]="arretMachine.ID_MACHINE == null || arretMachine.ID_SHIFT == null || arretMachine.ID_PILOTE == null"
+            class="btn btn-sm btn-primary"><i
+      class="fa fa-search"></i> Chercher
+    </button>
+    <button (click)="refresh()" class="btn btn-sm btn-danger"><i
+      class="fa fa-refresh"></i> Refraichie
+    </button>
+  </div>
+  <div class="card-body">
+
+    <div class="chart-wrapper" *ngIf="isLineChartReady">
+      <canvas baseChart class="chart"
+              [datasets]="lineChart.lineChartData"
+              [labels]="lineChart.lineChartLabels"
+              [options]="lineChart.lineChartOptions"
+              [colors]="lineChart.lineChartColor"
+              [legend]="true"
+              [chartType]="'line'" (chartClick)="circlChartClicked($event)"></canvas>
+    </div>
+    <div style="display: block;" *ngIf="isCircleChartReady">
+      <hr>
+      <canvas baseChart
+              [data]="circleChart.circleChartData"
+              [labels]="circleChart.circleChartLabels"
+              [colors]="circleChart.colors"
+              [chartType]="'doughnut'">
+      </canvas>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          Jqwidgets grid demo
+        </div>
+        <div class="card-body">
+          <jqxGrid
+            [theme]="'bootstrap'" [width]="'100%'" [source]="dataAdapter"
+            [columns]="columns" [localization]="localization"
+            [selectionmode]="'single'"
+            [pageable]="true" [autoheight]="true" [autorowheight]="true"
+            [sortable]="true" [altrows]="true" [columnsresize]="true"
+            [filterable]="true" [showfilterrow]="true"
+            (onPagechanged)="demoGridPageChange($event)"
+            #demoGrid>
+          </jqxGrid>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

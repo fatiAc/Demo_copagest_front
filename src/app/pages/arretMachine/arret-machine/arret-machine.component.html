@@ -1,0 +1,81 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "large" color = "#fff" type = "timer"
+             [fullScreen] = "true"><p style="color: white" >
+  Traitement de la requete en cours ... Si vous actualiser la fenetre verifier
+  s'il vous plait la validité des données, car il se peut que votre opération
+  est deja traiter par le serveur. </p>
+</ngx-spinner>
+<div class="card" *ngIf="authService.hasAccess(2009,2111,'AJT')">
+  <div class="card-header">
+    Arrêt de la machine
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="form-group col-sm-6 col-md-6 col-lg-4">
+        <label class="col-form-label">Machine-Pilote-Shift : </label>
+        <ng-multiselect-dropdown [data]="shiftMachinePiloteDropDown.data"
+                                 [(ngModel)]="shiftMachinePiloteDropDown.selected"
+                                 [settings]="shiftMachinePiloteDropDown.settings"
+                                 (onSelect)="configEventsFabricationDropDown()"
+                                 (onDeSelect)="onDeselectShiftMachinePilot()">
+        </ng-multiselect-dropdown>
+      </div>
+      <div class="form-group col-sm-6 col-md-6 col-lg-3">
+        <label class="col-form-label">Type d'arrêt : </label>
+        <jqxDropDownList [width]="'100%'" [height]="35" [filterable]="true" [filterPlaceHolder]="'Filtrer'"
+                         style="background-color: white" [source]="typesArret"
+                         (onChange)="arretMachine.ID_TYPE_ARRET = typesArret[$event.args.index].title"
+                         [selectedIndex]="0" #typeArretDropDownList>
+        </jqxDropDownList>
+      </div>
+      <div class="form-group col-sm-6 col-md-6 col-lg-5">
+        <label class="col-form-label">Evenement de fabrication : </label>
+        <jqxDropDownList [width]="'100%'" [height]="35" [filterable]="true" [filterPlaceHolder]="'Filtrer'"
+                         style="background-color: white" [source]="eventsFabrication"
+                         (onChange)="arretMachine.ID_EVENEMENT_FABRICATION = eventsFabrication[$event.args.index].title">
+        </jqxDropDownList>
+
+      </div>
+      <div class="form-group col-sm-4">
+        <label class="col-form-label">Date d'arrêt : </label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="icon-calendar"></i></span>
+          </div>
+          <input type="text" class="form-control" [(ngModel)]="arretMachine.DATE_ARRET" [min]="datePickerSettings.min"
+                 [max]="datePickerSettings.max"
+                 [owlDateTimeTrigger]="dt8" [owlDateTime]="dt8" (dateTimeChange)="getSelectedDate()">
+          <owl-date-time #dt8></owl-date-time>
+
+        </div>
+      </div>
+      <div class="form-group col-sm-4">
+        <label class="col-form-label">Durée en minutes: </label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="jqx-icon-time"></i></span>
+          </div>
+          <input type="number" class="form-control" [min]="1" [(ngModel)]="arretMachine.DUREE_ARRET_MINUTE">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <button (click)="create()" [disabled]="disableSearchBtn()" class="btn btn-sm btn-primary"><i
+      class="fa fa-plus"></i> Ajouter
+    </button>
+    <button (click)="refresh()" class="btn btn-sm btn-danger"><i class="fa fa-refresh"></i>
+      Refraichir
+    </button>
+  </div>
+</div>
+
+<div class="card card-body">
+  <jqxGrid
+    [theme]="'bootstrap'" [width]="'100%'" [source]="arretMachineTable.dataAdapter"
+    [columns]="arretMachineTable.columns" [localization]="localization"
+    [selectionmode]="'single'"
+    [pageable]="true" [autoheight]="true" [autorowheight]="true"
+    [sortable]="true" [altrows]="true" [columnsresize]="true" [enabletooltips]="true"
+    [filterable]="true" [showfilterrow]="true" #arretMachineGrid>
+  </jqxGrid>
+</div>
